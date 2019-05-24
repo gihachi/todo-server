@@ -1,7 +1,7 @@
 /db/*
 
-# Created by https://www.gitignore.io/api/go,macos
-# Edit at https://www.gitignore.io/?templates=go,macos
+# Created by https://www.gitignore.io/api/go,macos,visualstudiocode
+# Edit at https://www.gitignore.io/?templates=go,macos,visualstudiocode
 
 ### Go ###
 # Binaries for programs and plugins
@@ -49,4 +49,13 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# End of https://www.gitignore.io/api/go,macos
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
