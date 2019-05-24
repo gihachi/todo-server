@@ -12,19 +12,18 @@ import (
 
 func HandlePostTodo(context echo.Context) error {
 
-	db, err := gorm.Open("sqlite3","./db/todo.db")
-	util.CheckConnectError(err)
+	var db *gorm.DB = util.GetDB()
 	defer db.Close()
 
 	todo := new(models.Todo)
-	if err = context.Bind(todo);err != nil{
+	if err := context.Bind(todo);err != nil{
 		return context.JSON(http.StatusBadRequest, makeFailureContent())
 	} 
 
 	var validate *validator.Validate
 	validate = validator.New()
 
-	if err = validate.Struct(todo); err != nil{
+	if err := validate.Struct(todo); err != nil{
 		return context.JSON(http.StatusBadRequest, makeFailureContent())
 	}
 

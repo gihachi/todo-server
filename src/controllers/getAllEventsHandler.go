@@ -11,8 +11,7 @@ import (
 
 func HandleGetAllEvents(context echo.Context) error{
 
-	db, err := gorm.Open("sqlite3","./db/todo.db")
-	util.CheckConnectError(err)
+	var db *gorm.DB = util.GetDB()
 	defer db.Close()
 
 	var todos []models.Todo

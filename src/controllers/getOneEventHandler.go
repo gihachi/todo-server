@@ -18,8 +18,7 @@ func HandleGetOneEvnet(context echo.Context) error{
 		return context.NoContent(http.StatusNotFound)
 	}
 
-	db, err := gorm.Open("sqlite3","./db/todo.db")
-	util.CheckConnectError(err)
+	var db *gorm.DB = util.GetDB()
 	defer db.Close()
 
 	var event []models.Todo
