@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"net/http"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"gopkg.in/go-playground/validator.v9"
 	"todo-server/src/util"
 	"todo-server/src/models"
 )
@@ -17,16 +18,15 @@ func HandlePostTodo(context echo.Context) error {
 
 	todo := new(models.Todo)
 	if err = context.Bind(todo);err != nil{
-
-		var returnContent struct {
-			Status string `json:"status"`
-			Message string `json:"message"`
-		}
-		returnContent.Status =  "failure"
-		returnContent.Message =  "invalid date format"
-
-		return context.JSON(http.StatusBadRequest, returnContent)
+		return context.JSON(http.StatusBadRequest, makeFailureContent())
 	} 
+
+	var validate *validator.Validate
+	validate = validator.New()
+
+	if err = validate.Struct(todo); err != nil{
+		return context.JSON(http.StatusBadRequest, makeFailureContent())
+	}
 
 	db.Create(&todo)
 
@@ -41,4 +41,16 @@ func HandlePostTodo(context echo.Context) error {
 
 	return context.JSON(http.StatusOK, returnContent)
 
+}
+
+type failureContent struct{
+	Status string `json:"status"`
+	Message string `json:"message"`
+}
+
+func makeFailureContent() failureContent{
+	var fContent failureContent
+	fContent.Status =  "failure"
+	fContent.Message =  "invalid date format"
+	return fContent
 }
