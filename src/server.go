@@ -32,6 +32,7 @@ func handleRequest(){
 
 	// end point
 	e.POST("/api/v1/event",controllers.HandlePostTodo)
+	e.GET("/api/v1/event",controllers.HandleGetAllEvents)
 
 	fmt.Println("Run server localhost : 8080")
 	log.Fatal(e.Start(":8080"))
