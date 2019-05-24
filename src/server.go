@@ -9,6 +9,7 @@ import(
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"todo-server/src/models"
 	"todo-server/src/util"
+	"todo-server/src/controllers"
 )
 
 func main(){
@@ -30,7 +31,7 @@ func handleRequest(){
 	e.Use(middleware.Recover())
 
 	// end point
-	
+	e.POST("/api/v1/event",controllers.HandlePostTodo)
 
 	fmt.Println("Run server localhost : 8080")
 	log.Fatal(e.Start(":8080"))
