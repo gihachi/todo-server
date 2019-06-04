@@ -21,6 +21,8 @@ $ go mod download
 $ go run server.go
 ```
 
+起動するとlocalhost:8080で待ち受けを行う
+
 ## テストの実行方法
 
 あらかじめサーバを起動しておく必要がある
@@ -28,8 +30,6 @@ $ go run server.go
 ```
 $ go test
 ```
-
-起動するとlocalhost:8080で待ち受けを行う
 
 ## API
 
