@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
 	"net/http"
+	"time"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"gopkg.in/go-playground/validator.v9"
 	"todo-server/util"
@@ -22,11 +23,15 @@ func HandlePostTodo(context echo.Context) error {
 
 	var validate *validator.Validate
 	validate = validator.New()
+	validate.RegisterValidation("is_date",isDate)
 
 	if err := validate.Struct(todo); err != nil{
 		return context.JSON(http.StatusBadRequest, makeFailureContent())
 	}
 
+	if !db.NewRecord(todo){
+		return context.JSON(http.StatusBadRequest, makeFailureContent())
+	}
 	db.Create(&todo)
 
 	var returnContent struct{
@@ -40,6 +45,17 @@ func HandlePostTodo(context echo.Context) error {
 
 	return context.JSON(http.StatusOK, returnContent)
 
+}
+
+func isDate(fl validator.FieldLevel) bool{
+
+	date := fl.Field().String()
+	layout := "2006-01-02T15:04:05Z07:00"
+	_,err := time.Parse(layout,date)
+	if err != nil{
+		return false
+	}
+	return true
 }
 
 type failureContent struct{

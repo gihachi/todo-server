@@ -28,17 +28,7 @@ func HandleGetOneEvnet(context echo.Context) error{
 		return context.NoContent(http.StatusNotFound)
 	}
 
-	var returnContent struct{
-		ID uint `json:"id"`
-		Deadline string `json:"deadline"`
-		Title string `json:"title"`
-		Memo string  `json:"memo"`
-	}
-
-	returnContent.ID = event[0].ID
-	returnContent.Deadline = event[0].Deadline
-	returnContent.Title = event[0].Title
-	returnContent.Memo = event[0].Memo
+	respContent := models.NewResponseTodo(event[0])
 	
-	return context.JSON(http.StatusOK,returnContent)
+	return context.JSON(http.StatusOK,respContent)
 }
