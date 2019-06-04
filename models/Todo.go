@@ -8,7 +8,7 @@ type Todo struct{
 	gorm.Model
 	Deadline string `json:"deadline" validate:"required"`
 	Title string `json:"title" validate:"required"`
-	Memo string `json:"memo" validate:"required"`
+	Memo string `json:"memo"`
 }
 
 func (todo Todo) NewTodo(deadline, title ,memo string) Todo{
