@@ -5,8 +5,8 @@ import (
 	"github.com/jinzhu/gorm"
 	"net/http"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"todo-server/src/util"
-	"todo-server/src/models"
+	"todo-server/util"
+	"todo-server/models"
 )
 
 func HandleGetAllEvents(context echo.Context) error{

@@ -6,8 +6,8 @@ import (
 	"net/http"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"gopkg.in/go-playground/validator.v9"
-	"todo-server/src/util"
-	"todo-server/src/models"
+	"todo-server/util"
+	"todo-server/models"
 )
 
 func HandlePostTodo(context echo.Context) error {

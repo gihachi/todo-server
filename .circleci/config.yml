@@ -22,11 +22,11 @@ jobs:
 
    - run:
       name: start server
-      command:  go run src/server.go 
+      command:  go run server.go 
       background: true
 
    - run:
       name: run test
       command: |
        sleep 5
-       go test todo-server/src/ 
+       go test 

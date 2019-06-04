@@ -6,8 +6,8 @@ import (
 	"net/http"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"strconv"
-	"todo-server/src/util"
-	"todo-server/src/models"
+	"todo-server/util"
+	"todo-server/models"
 )
 
 func HandleGetOneEvnet(context echo.Context) error{

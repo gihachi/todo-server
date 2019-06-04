@@ -7,9 +7,9 @@ import(
 	"github.com/labstack/echo/middleware"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"todo-server/src/models"
-	"todo-server/src/util"
-	"todo-server/src/controllers"
+	"todo-server/models"
+	"todo-server/util"
+	"todo-server/controllers"
 )
 
 func main(){
