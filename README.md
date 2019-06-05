@@ -61,8 +61,8 @@ todoをサーバーに登録する.
 |  JSONプロパティ| data type | 200 OKの時  | 400 Bad Requestの時 | 
 |---------|--------------|------------|---------------------|
 | status  | string     |success    | failure             |
-| message | string     | invalid date format |
-| id      | int        |                     | 
+| message | string     | registered   |nvalid date format |
+| id      | int        | todoのid                    | 
 
 ### 全todoのGET
 
