@@ -1,32 +1,32 @@
 package main
 
-import(
-	"testing"
-	"net/http"
+import (
 	"bytes"
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
 	"strconv"
+	"testing"
 )
 
 var baseUrl string = "http://localhost:8080"
 
-func TestPostEvent(t *testing.T){
-	
-	var deadline string = `2019-06-11T14:00:00+09:00`
-	var title    string = `submit report`
-	var memo     string = `must submit`
+func TestPostEvent(t *testing.T) {
 
-	jsonStr := `{"deadline":"`+deadline+`","title":"`+title+`","memo":"`+memo+`"}`
+	var deadline string = `2019-06-11T14:00:00+09:00`
+	var title string = `submit report`
+	var memo string = `must submit`
+
+	jsonStr := `{"deadline":"` + deadline + `","title":"` + title + `","memo":"` + memo + `"}`
 	var postUrl string = baseUrl + "/api/v1/event"
 
-	req,err := http.NewRequest(
+	req, err := http.NewRequest(
 		"POST",
 		postUrl,
 		bytes.NewBuffer([]byte(jsonStr)),
 	)
 
-	if err != nil{
+	if err != nil {
 		t.Fatalf(err.Error())
 	}
 
@@ -34,87 +34,86 @@ func TestPostEvent(t *testing.T){
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	if err != nil{
+	if err != nil {
 		t.Fatalf(err.Error())
 	}
 	defer resp.Body.Close()
 
-	body,err := ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 
-	if(resp.StatusCode != 200){
+	if resp.StatusCode != 200 {
 		t.Fatalf("status code illegal" + string(resp.StatusCode))
 	}
 
 	var data map[string]interface{}
-	json.Unmarshal(body,&data)
+	json.Unmarshal(body, &data)
 
-	if(data["status"] != "success"){
-		t.Fatalf("deadline is illegal : "+string(body))
+	if data["status"] != "success" {
+		t.Fatalf("deadline is illegal : " + string(body))
 	}
-	if(data["message"] != "registered"){
-		t.Fatalf("title is illegal : "+string(body))
+	if data["message"] != "registered" {
+		t.Fatalf("title is illegal : " + string(body))
 	}
 }
 
-func TestGetEvents(t *testing.T){
+func TestGetEvents(t *testing.T) {
 
-	var getUrl string = baseUrl+"/api/v1/event"
+	var getUrl string = baseUrl + "/api/v1/event"
 
 	resp, err := http.Get(getUrl)
-	if err != nil{
+	if err != nil {
 		t.Fatalf(err.Error())
 	}
 	defer resp.Body.Close()
 
-	if(resp.StatusCode != 200){
-		t.Fatalf("statusCode illigal : "+string(resp.StatusCode))
+	if resp.StatusCode != 200 {
+		t.Fatalf("statusCode illigal : " + string(resp.StatusCode))
 	}
 
-	body,_ := ioutil.ReadAll(resp.Body)
+	body, _ := ioutil.ReadAll(resp.Body)
 	var events EventArr
-	if err := json.Unmarshal(body, &events); err != nil{
+	if err := json.Unmarshal(body, &events); err != nil {
 		t.Fatalf("fail cast json to EventArr")
 	}
 }
 
+func TestGetOneEvent(t *testing.T) {
 
-func TestGetOneEvent(t *testing.T){
-
-	var getUrl string = baseUrl+"/api/v1/event/1"
+	var getUrl string = baseUrl + "/api/v1/event/1"
 	resp, err := http.Get(getUrl)
-	if err != nil{
+	if err != nil {
 		t.Fatalf(err.Error())
 	}
 	defer resp.Body.Close()
 
-	if(resp.StatusCode != 200){
-		t.Fatalf("statusCode illigal : "+string(resp.StatusCode))
+	if resp.StatusCode != 200 {
+		t.Fatalf("statusCode illigal : " + string(resp.StatusCode))
 	}
-	body,_ := ioutil.ReadAll(resp.Body)
+	body, _ := ioutil.ReadAll(resp.Body)
 	var event Event
-	if err := json.Unmarshal(body, &event); err != nil{
+	if err := json.Unmarshal(body, &event); err != nil {
 		t.Fatalf("fail cast json to EventArr")
 	}
 }
 
-type EventArr struct{
+type EventArr struct {
 	Events []Event `json:"events"`
 }
 
-type Event struct{
-	ID int `json:"id"`
-	Title string `json:"title"`
+type Event struct {
+	ID       int    `json:"id"`
+	Title    string `json:"title"`
 	Deadline string `json:"deadline"`
-	Memo string `json:"memo"`
+	Memo     string `json:"memo"`
 }
 
-func (event *Event) String() string{
-	return "{"+strconv.Itoa(event.ID)+","+event.Title+","+event.Deadline+","+event.Memo+"}"
+func (event *Event) String() string {
+	return "{" + strconv.Itoa(event.ID) + "," + event.Title + "," + event.Deadline + "," + event.Memo + "}"
 }
 
-func (eventArr *EventArr) String() string{
+func (eventArr *EventArr) String() string {
 	var arrString string = ""
-	for _,event := range eventArr.Events{
+	for _, event := range eventArr.Events {
 		arrString += event.String()
 	}
 	return arrString
